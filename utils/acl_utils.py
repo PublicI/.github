@@ -49,6 +49,7 @@ def merge_acl(acl_files: List[Path]) -> Dict[str, List[Path]]:
 
     def ensure_prefix(k): return k if Path(k).is_relative_to(
         prefix) else str(prefix / k.lstrip('/'))
+
     for file in acl_files:
         with file.open() as fp:
             prefix = Path('/') / Path('/'.join(file.stem.split('__')))
@@ -61,7 +62,7 @@ def merge_acl(acl_files: List[Path]) -> Dict[str, List[Path]]:
     return {k: list(v) for k, v in policy_global.items()}
 
 
-if __name__ == '__main__':
+def main():
     parser = ArgumentParser(description='Process ACL YAML File')
     subparsers = parser.add_subparsers(
         help='sub-command help', required=True, dest='command')
@@ -89,5 +90,6 @@ if __name__ == '__main__':
 
     elif args.command == 'merge-acl':
         acl_files = [Path(f) for f in args.acl_dir.glob('*.yaml')]
+        print(args.acl_dir)
         policy = merge_acl(acl_files)
         json.dump(policy, stdout, indent=2)
