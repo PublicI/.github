@@ -1,5 +1,5 @@
 name: publici-share-upload
-on: [push]
+on: [workflow_call]
 env:
   gcp_identity_provider: projects/219138289271/locations/global/workloadIdentityPools/publici-share-github/providers/publici-share-github
   gcp_service_account: gh-actions@publici-cluster.iam.gserviceaccount.com
