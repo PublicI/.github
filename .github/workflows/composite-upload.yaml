@@ -13,7 +13,7 @@ env:
   upload_prefix: github
   acl_path: acl.yaml
   remote_acl_path: gs://publici-share/.acl
-  global_acl_path: gs://publici-share/global-acl.yaml
+  global_acl_path: gs://publici-share/global-acl.json
 jobs:
   upload:
     if: "!contains(github.event.repository.name, '__')"
