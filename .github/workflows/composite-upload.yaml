@@ -11,7 +11,7 @@ env:
   upload_destination: publici-share/github/${{ github.event.repository.name }}
   bucket_name: publici-share
   upload_prefix: github
-  acl_path: .publici/acl.yaml
+  acl_path: acl.yaml
   remote_acl_path: gs://publici-share/.acl
   global_acl_path: gs://publici-share/global-acl.yaml
 jobs:
