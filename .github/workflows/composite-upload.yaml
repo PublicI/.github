@@ -1,0 +1,46 @@
+name: publici-share-upload
+on: [push]
+env:
+  gcp_identity_provider: projects/219138289271/locations/global/workloadIdentityPools/publici-share-github/providers/publici-share-github
+  gcp_service_account: gh-actions@publici-cluster.iam.gserviceaccount.com
+  upload_destination: publici-share/github/${{ github.event.repository.name }}
+  bucket_name: publici-share
+  upload_prefix: github
+  acl_path: .publici/acl.yaml
+  remote_acl_path: gs://publici-share/.acl
+  global_acl_path: gs://publici-share/global-acl.yaml
+jobs:
+  upload:
+    if: "!contains(github.event.repository.name, '__')"
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+    - id: gh-checkout
+      uses: actions/checkout@v2
+    - id: gcp-authenticate
+      uses: google-github-actions/auth@v0
+      with:
+        workload_identity_provider: ${{ env.gcp_identity_provider }}
+        service_account: ${{ env.gcp_service_account }}
+    - id: create-gcloudignore
+      shell: bash
+      run: |
+        echo ".git" >> ${{ github.workspace }}/.gcloudignore
+        echo "gha-creds-*.json" >> ${{ github.workspace }}/.gcloudignore
+        echo ".github" >> ${{ github.workspace }}/.gcloudignore
+    - id: gcp-upload-contents
+      uses: google-github-actions/upload-cloud-storage@v0
+      with:
+        path: ${{ github.workspace }}
+        destination: ${{ env.upload_destination }}
+        parent: false
+    - name: Update ACL Policy
+      uses: PublicI/test-gh-upload/.github/actions/generate-global-acl@main
+      with:
+        local-acl-path: ${{ github.workspace }}/${{ env.acl_path }}
+        local-acl-remote-path: ${{ env.remote_acl_path }}/${{ env.upload_prefix }}__${{ github.event.repository.name }}.yaml
+        global-acl-remote-path: ${{ env.global_acl_path }}
+        local-acl-prefix: ${{ env.upload_prefix }}/${{ github.event.repository.name }}
+        remote-acl-policies-path: ${{ env.remote_acl_path }}/

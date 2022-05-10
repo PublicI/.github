@@ -2,10 +2,10 @@ from collections import defaultdict
 from pathlib import Path, PurePath
 from itertools import product
 from typing import List, Set, Dict
-from argparse import ArgumentParser
 import yaml
 from sys import stdout
 import json
+from argparse import ArgumentParser
 
 
 def canonicalize(paths: List[Path], collapse: bool = True) -> Set[Path] | Dict[Path, Path]:
@@ -62,7 +62,7 @@ def merge_acl(acl_files: List[Path]) -> Dict[str, List[Path]]:
     return {k: list(v) for k, v in policy_global.items()}
 
 
-def main():
+if __name__ == '__main__':
     parser = ArgumentParser(description='Process ACL YAML File')
     subparsers = parser.add_subparsers(
         help='sub-command help', required=True, dest='command')
@@ -90,6 +90,5 @@ def main():
 
     elif args.command == 'merge-acl':
         acl_files = [Path(f) for f in args.acl_dir.glob('*.yaml')]
-        print(args.acl_dir)
         policy = merge_acl(acl_files)
         json.dump(policy, stdout, indent=2)
