@@ -37,7 +37,7 @@ jobs:
         destination: ${{ env.upload_destination }}
         parent: false
     - name: Update ACL Policy
-      uses: PublicI/.github/.github/actions/generate-global-acl@main
+      uses: PublicI/.github/.github/actions/generate-global-acl@master
       with:
         local-acl-path: ${{ github.workspace }}/${{ env.acl_path }}
         local-acl-remote-path: ${{ env.remote_acl_path }}/${{ env.upload_prefix }}__${{ github.event.repository.name }}.yaml
