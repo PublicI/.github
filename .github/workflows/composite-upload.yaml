@@ -12,7 +12,7 @@ env:
   bucket_name: publici-share
   upload_prefix: github
   acl_path: acl.yaml
-  remote_acl_path: gs://publici-share/.acl
+  remote_acl_path: publici-share/.acl
 jobs:
   upload:
     if: "!contains(github.event.repository.name, '__')"
