@@ -49,5 +49,4 @@ jobs:
       with:
         path: ${{ env.acl_path }}
         destination: ${{ env.remote_acl_path }}/${{ env.upload_prefix }}__${{ github.event.repository.name }}.yaml
-        parent: false
         gzip: false
