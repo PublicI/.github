@@ -55,4 +55,4 @@ jobs:
         parent: false
         gzip: false
         headers: |-
-          Content-Type: text/yaml
+          content-type: text/yaml
