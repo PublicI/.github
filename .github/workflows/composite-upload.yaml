@@ -54,3 +54,5 @@ jobs:
         destination: ${{ env.remote_acl_path }}
         parent: false
         gzip: false
+        headers: |-
+          Content-Type: text/yaml
