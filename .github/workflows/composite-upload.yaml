@@ -13,7 +13,6 @@ env:
   upload_prefix: github
   acl_path: acl.yaml
   remote_acl_path: gs://publici-share/.acl
-  global_acl_path: gs://publici-share/global-acl.json
 jobs:
   upload:
     if: "!contains(github.event.repository.name, '__')"
@@ -38,18 +37,16 @@ jobs:
     - id: save-acl
       shell: bash
       run: |
-        printf '%s\n' "${{ inputs.acl_policy }}" > ${{ github.workspace }}/${{ env.acl_path }}
+        printf '%s\n' "${{ toJson(inputs.acl_policy) }}" > ${{ github.workspace }}/${{ env.acl_path }}
     - id: gcp-upload-contents
       uses: google-github-actions/upload-cloud-storage@v0
       with:
         path: ${{ github.workspace }}
         destination: ${{ env.upload_destination }}
         parent: false
-    - name: Update ACL Policy
-      uses: PublicI/.github/.github/actions/generate-global-acl@master
+    - id: gcp-upload-acl
+      uses: google-github-actions/upload-cloud-storage@v0
       with:
-        local-acl-path: ${{ github.workspace }}/${{ env.acl_path }}
-        local-acl-remote-path: ${{ env.remote_acl_path }}/${{ env.upload_prefix }}__${{ github.event.repository.name }}.yaml
-        global-acl-remote-path: ${{ env.global_acl_path }}
-        local-acl-prefix: ${{ env.upload_prefix }}/${{ github.event.repository.name }}
-        remote-acl-policies-path: ${{ env.remote_acl_path }}/
+        path: ${{ github.workspace }}/${{ env.acl_path }}
+        destination: ${{ env.remote_acl_path }}/${{ env.upload_prefix }}__${{ github.event.repository.name }}.json
+        parent: false
