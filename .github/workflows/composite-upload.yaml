@@ -47,6 +47,6 @@ jobs:
     - id: gcp-upload-acl
       uses: google-github-actions/upload-cloud-storage@v0.10.2
       with:
-        path: ${{ github.workspace }}/${{ env.acl_path }}
+        path: ${{ env.acl_path }}
         destination: ${{ env.remote_acl_path }}/${{ env.upload_prefix }}__${{ github.event.repository.name }}.yaml
         parent: false
