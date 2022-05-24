@@ -37,7 +37,7 @@ jobs:
     - id: save-acl
       shell: bash
       run: |
-        printf '%s\n' "${{ toJson(inputs.acl_policy) }}" > ${{ github.workspace }}/${{ env.acl_path }}
+        printf '%s\n' "${{ inputs.acl_policy }}" > ${{ github.workspace }}/${{ env.acl_path }}
         rm -rf /tmp/gh-acl-dir
         mkdir /tmp/gh-acl-dir
         cp ${{ github.workspace }}/${{ env.acl_path }} /tmp/gh-acl-dir/${{ env.upload_prefix }}__${{ github.event.repository.name }}.yaml
