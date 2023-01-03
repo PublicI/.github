@@ -10,8 +10,8 @@ on:
           type: string
           default: ""
 env:
-  gcp_identity_provider: projects/219138289271/locations/global/workloadIdentityPools/publici-share-github/providers/publici-share-github
-  gcp_service_account: gh-actions@publici-cluster.iam.gserviceaccount.com
+  gcp_identity_provider: projects/318349477291/locations/global/workloadIdentityPools/publici-share-github/providers/publici-share-github
+  gcp_service_account: gh-actions@publici-apps.iam.gserviceaccount.com
   upload_destination: publici-share/github/${{ github.event.repository.name }}
   bucket_name: publici-share
   upload_prefix: github
