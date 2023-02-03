@@ -37,10 +37,13 @@ jobs:
             "terraform-modules": "terraform"
           }
 
-          expected = allowed[github.event.repository.name]
+          repository = "${{ github.event.repository.name }}"
+          input_type = "${{ inputs.type }}"
 
-          if inputs.type != expected:
-            print("Invalid package type: " + inputs.type)
+          expected = allowed[repository]
+
+          if input_type != expected:
+            print("Invalid package type: " + input_type)
             exit(1)
   release-artifact:
     runs-on: ubuntu-latest
