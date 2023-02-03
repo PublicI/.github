@@ -51,11 +51,6 @@ jobs:
         with: 
           workload_identity_provider: ${{ env.WORKLOAD_POOL }}
           service_account: ${{ env.SERVICE_ACCOUNT }}
-      - id: gcp-authenticate
-        uses: google-github-actions/auth@v0
-        with:
-          workload_identity_provider: ${{ env.WORKLOAD_POOL }}
-          service_account: ${{ env.SERVICE_ACCOUNT }}
       - id: download-asset
         uses: actions/download-artifact@v3
         with:
