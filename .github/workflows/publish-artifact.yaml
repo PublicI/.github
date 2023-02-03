@@ -21,8 +21,6 @@ jobs:
     env:
       BUCKET_NAME: publici-artifacts
       ARTIFACT_DIR: /tmp/release/
-      WORKLOAD_POOL: ${{ secrets.WORKLOAD_POOL }}
-      SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
     steps:
       - id: validate-inputs
         shell: python
@@ -42,8 +40,8 @@ jobs:
       - id: gcp-authenticate
         uses: google-github-actions/auth@v0
         with: 
-          workload_identity_provider: ${{ env.WORKLOAD_POOL }}
-          service_account: ${{ env.SERVICE_ACCOUNT }}
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_POOL }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
       - id: download-asset
         uses: actions/download-artifact@v3
         with:
