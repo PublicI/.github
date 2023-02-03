@@ -27,9 +27,24 @@ env:
       }')[github.event.repository.name]
     }}
 jobs:
+  validate-inputs:
+    runs-on: ubuntu-22.04
+    steps:
+      - id: validate-inputs
+        shell: python
+        run: |
+          allowed = {
+            "terraform-modules": "terraform"
+          }
+
+          expected = allowed[github.event.repository.name]
+
+          if inputs.type != expected:
+            print("Invalid package type: " + inputs.type)
+            exit(1)
   release-artifact:
-    if: ${{ env.TYPE == inputs.type }}
     runs-on: ubuntu-latest
+    needs: validate-inputs
     steps:
       - id: gcp-authenticate
         uses: google-github-actions/auth@v0
