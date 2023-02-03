@@ -16,8 +16,8 @@ on:
         required: true
         type: string
 env:
-  WORKLOAD_POOL: projects/318349477291/locations/global/workloadIdentityPools/publici-share-github/providers/publici-share-github
-  SERVICE_ACCOUNT: gh-actions@publici-apps.iam.gserviceaccount.com
+  WORKLOAD_POOL: ${{ secrets.WORKLOAD_POOL }}
+  SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
   BUCKET_NAME: publici-artifacts
   ARTIFACT_DIR: /tmp/release/
   TYPE: |
