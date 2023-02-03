@@ -16,8 +16,6 @@ on:
         required: true
         type: string
 env:
-  WORKLOAD_POOL: ${{ secrets.WORKLOAD_POOL }}
-  SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
   BUCKET_NAME: publici-artifacts
   ARTIFACT_DIR: /tmp/release/
   TYPE: |
@@ -52,8 +50,8 @@ jobs:
       - id: gcp-authenticate
         uses: google-github-actions/auth@v0
         with: 
-          workload_identity_provider: ${{ env.WORKLOAD_POOL }}
-          service_account: ${{ env.SERVICE_ACCOUNT }}
+          workload_identity_provider: ${{ secrets.WORKLOAD_POOL }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
       - id: download-asset
         uses: actions/download-artifact@v3
         with:
